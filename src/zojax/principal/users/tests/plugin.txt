@@ -1,0 +1,190 @@
+================
+Principal Folder
+================
+
+Some setup code
+
+  >>> from zope import component, interface
+  >>> from zope.app.security.interfaces import IAuthentication
+  >>> from zope.app.authentication.interfaces import IAuthenticatorPlugin
+  >>> from zojax.authentication.credentials import SimpleCredentials
+  >>> from zojax.principal.password.interfaces import IPasswordTool
+
+  >>> auth = component.getUtility(IAuthentication)
+
+Principal folders contain principal-information objects that contain principal
+information. Principal can have multiple logins. Login name is valid email.
+We create an internal principal using the `Principal`
+class:
+
+  >>> passwdtool = component.getUtility(IPasswordTool)
+
+  >>> from zojax.principal.users.principal import Principal
+  >>> p1 = Principal('login1', 'Principal', '1', passwdtool.encodePassword('123'),
+  ...     ('login1_1', 'login1_2', 'login1_3'))
+  >>> p2 = Principal('login2', 'The', 'Other One', passwdtool.encodePassword('456'))
+
+and add then in map fashion to a principal folder:
+
+  >>> from zojax.principal.users import interfaces
+  >>> from zojax.principal.users.plugin import UsersPlugin
+  >>> principals = UsersPlugin(prefix='principal.')
+  >>> principals['p1'] = p1
+  >>> principals['p2'] = p2
+
+Include plugin to IAuthentication utility
+
+  >>> component.provideUtility(principals, IAuthenticatorPlugin, 'principals')
+  >>> component.provideUtility(principals, interfaces.IUsersPlugin)
+  >>> auth.authenticatorPlugins = auth.authenticatorPlugins + ('principals',)
+
+We can't use same name. Try to add another principal with the same id.
+It should raise a DuplicateIDError
+
+  >>> principals['p2'] = p2
+  Traceback (most recent call last):
+  ...
+  DuplicateIDError: 'Principal Login already taken!, login2'
+
+Create a principal with mutiple logins. We should not able to add principal 
+with same logins.
+
+  >>> principals['p1'] = p1
+  Traceback (most recent call last):
+  ...
+  DuplicateIDError: 'Principal Login already taken!, login1'
+
+
+Authentication
+--------------
+Principal folders provide the `IAuthenticatorPlugin` interface. When we
+provide suitable credentials:
+
+Credention should have both login and password 
+
+  >>> from zope.testing.doctestunit import pprint
+  >>> principals.authenticateCredentials(SimpleCredentials('login1', '123'))
+  PrincipalInfo(u'principal.p1')
+
+We get back a principal id and supplementary information, including the
+principal title and description.  Note that the principal id is a concatenation
+of the principal-folder prefix and the name of the principal-information object
+within the folder.
+
+Also we can use any principal login name for authentication:
+
+  >>> principals.authenticateCredentials(SimpleCredentials('login1_1', '123'))
+  PrincipalInfo(u'principal.p1')
+  >>> principals.authenticateCredentials(SimpleCredentials('login1_2', '123'))
+  PrincipalInfo(u'principal.p1')
+  >>> principals.authenticateCredentials(SimpleCredentials('login1_3', '123'))
+  PrincipalInfo(u'principal.p1')
+
+None is returned if the credentials are invalid:
+
+  >>> principals.authenticateCredentials(SimpleCredentials('login1', '1234'))
+  >>> principals.authenticateCredentials(42)
+
+
+Changing credentials
+--------------------
+Credentials can be changed by modifying principal-information objects:
+
+  >>> p1.login = 'bob'
+  >>> p1.password = passwdtool.encodePassword('eek')
+
+  >>> principals.authenticateCredentials(SimpleCredentials('bob', 'eek'))
+  PrincipalInfo(u'principal.p1')
+
+  >>> principals.authenticateCredentials(SimpleCredentials('login1', 'eek'))
+
+  >>> principals.authenticateCredentials(SimpleCredentials('bob', '123'))
+
+
+  >>> p1.logins = ('login5_2', 'login5_3')
+  >>> principals.authenticateCredentials(SimpleCredentials('login1_2', 'eek'))
+
+  >>> principals.authenticateCredentials(SimpleCredentials('login1_3', 'eek'))
+
+  >>> principals.authenticateCredentials(SimpleCredentials('login5_2', 'eek'))
+  PrincipalInfo(u'principal.p1')
+
+  >>> principals.authenticateCredentials(SimpleCredentials('login5_3', 'eek'))
+  PrincipalInfo(u'principal.p1')
+
+It is an error to try to pick a login name that is already taken:
+
+  >>> p1.login = 'login2'
+  Traceback (most recent call last):
+  ...
+  ValueError: Principal Login already taken!, login2
+
+Same for secondary logins
+
+  >>> p1.logins = ('login2',)
+  Traceback (most recent call last):
+  ...
+  ValueError: Principal Login already taken!, login2
+
+If such an attempt is made, the data are unchanged:
+
+  >>> principals.authenticateCredentials(SimpleCredentials('bob', 'eek'))
+  PrincipalInfo(u'principal.p1')
+
+
+IPrincipalMarker
+----------------
+
+zojax.principal.users mark all it's princiapls with IPrincipalMarker interface
+
+
+  >>> principal = auth.getPrincipal('xyz_principal.p1')
+  >>> principal
+  Principal('xyz_principal.p1')
+
+  >>> interfaces.IPrincipalMarker.providedBy(principal)
+  True
+
+Also we can get internal representation 
+
+  >>> interfaces.IPrincipal(principal) == p1
+  True
+
+We can get principal id my login
+
+  >>> principals.getPrincipalByLogin('bob')
+  u'p1'
+
+  >>> from zojax.authentication.utils import getPrincipalByLogin
+  >>> principal = getPrincipalByLogin('bob')
+  >>> principal
+  Principal(u'xyz_principal.p1')
+
+We can change password 
+
+  >>> from zojax.principal.password.interfaces import IPasswordChanger
+  >>> IPasswordChanger(principal).changePassword(
+  ...     passwdtool.encodePassword('eek2'))
+  
+  >>> passwdtool.checkPassword(p1.password, 'eek2')
+  True
+
+
+EMail
+------
+
+We use emails as login
+
+  >>> p1.login = u'test@localhost.net'
+  >>> principals.authenticateCredentials(SimpleCredentials(u'test@localhost.net', 'eek2'))
+  PrincipalInfo(u'principal.p1')
+  
+  >>> from zojax.mail.utils import getPrincipalByEMail
+  >>> from zojax.mail.interfaces import IMailAddress
+
+  >>> getPrincipalByEMail(u'test@localhost.net')
+  Principal(u'xyz_principal.p1')
+
+  >>> IMailAddress(principal).address
+  u'test@localhost.net'
+

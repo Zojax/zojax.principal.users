@@ -1,0 +1,37 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.principal.user">
+
+  <!-- add new principal -->
+  <browser:icon
+     name="zmi_icon"
+     for="..interfaces.IPrincipalFactory"
+     file="user.png" />
+
+  <browser:page
+     name="index.html"
+     for="..interfaces.IPrincipalFactory"
+     class=".add.NewPrincipal"
+     permission="zope.View" />
+
+  <!-- membership registration action -->
+  <utility
+     name="zojax-principal-users"
+     factory=".registration.RegisterAction" />
+
+  <zojax:pagelet
+     name="index.html"
+     for=".registration.RegisterAction"
+     class=".registration.MemberRegistration"
+     layout="auth"
+     permission="zope.Public" />
+ 
+  <class class=".registration.RegisterAction">
+    <require
+       permission="zope.Public"
+       interface="zojax.principal.registration.interfaces.IMemberRegistrationAction" />
+  </class>
+
+</configure>

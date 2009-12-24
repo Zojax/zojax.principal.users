@@ -1,0 +1,280 @@
+# #############################################################################
+#
+# Copyright (c) 2009 Zope Foundation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+# #############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: zojax.principalfolder\n"
+"POT-Creation-Date: Tue Oct 21 12:59:59 2008\n"
+"PO-Revision-Date: 2008-10-21 13:03+0600\n"
+"Last-Translator: Nikolay Kim <fafhrd91@gmail.com>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: src/zojax/principalfolder/browser/add.py:33
+#: src/zojax/principalfolder/interfaces.py:43
+msgid "Password"
+msgstr "Пароль"
+
+#: src/zojax/principalfolder/browser/add.py:34
+msgid ""
+"Enter new password. Minimum of 8 characters, no spaces or special "
+"characters, should contain digits and letters in mixed case."
+msgstr ""
+"Введите новый пароль. Минимально 8 символов, без пробелов и специальных "
+"символов, также пароль должен содержать цифры и буквы в смешаном регистре."
+
+#: src/zojax/principalfolder/browser/add.py:40
+#: src/zojax/principalfolder/interfaces.py:47
+msgid "Description"
+msgstr "Описание"
+
+#: src/zojax/principalfolder/browser/add.py:41
+#: src/zojax/principalfolder/interfaces.py:48
+msgid "Provides a description for the principal."
+msgstr "Описание для пользователя."
+
+#: src/zojax/principalfolder/browser/add.py:50
+msgid "Create new member"
+msgstr "Создать нового пользователя"
+
+#: src/zojax/principalfolder/browser/configure.zcml:10
+msgid "A Principal folder"
+msgstr "Папка с пользователями"
+
+#: src/zojax/principalfolder/browser/configure.zcml:10
+msgid "Principal Folder (zojax)"
+msgstr "Папка с пользователями (zojax)"
+
+#: src/zojax/principalfolder/browser/configure.zcml:17
+msgid "Add principal folder (zojax)"
+msgstr "Добавить папку с пользователями (zojax)"
+
+#: src/zojax/principalfolder/browser/configure.zcml:26
+msgid "Manage Login and Email Address"
+msgstr "Логин и Электронный адрес"
+
+#: src/zojax/principalfolder/browser/configure.zcml:26
+msgid "You can change your login name and email address here."
+msgstr "Вы можете изменить ваш логин и email адрес здесь."
+
+#: src/zojax/principalfolder/browser/interfaces.py:27
+#: src/zojax/principalfolder/interfaces.py:33
+#: src/zojax/principalfolder/browser/login.pt:10
+msgid "Full Name"
+msgstr "Полное имя"
+
+#: src/zojax/principalfolder/browser/interfaces.py:28
+#: src/zojax/principalfolder/interfaces.py:34
+#: src/zojax/principalfolder/browser/login.pt:12
+msgid "e.g. John Smith. This is how users on the site will identify you."
+msgstr ""
+"Например Джон Смит. Так бедет выглядеть ваше имя для других пользователей."
+
+#: src/zojax/principalfolder/browser/interfaces.py:33
+#: src/zojax/principalfolder/browser/login.pt:24
+msgid "E-mail/Login"
+msgstr "E-mail/Логин"
+
+#: src/zojax/principalfolder/browser/interfaces.py:34
+msgid ""
+"This is the username you will use to log in. It must be an email address. "
+"<br /> Your email address will not be displayed to any user or be shared "
+"with anyone else."
+msgstr ""
+"Это имя вы будете использовать для того чтобы залогинится на сайте. Оно "
+"должно быть email адресом. <br /> Ваш электронный адрес не будет видим для "
+"других пользователей."
+
+#: src/zojax/principalfolder/browser/login.pt:38
+msgid "Save"
+msgstr "Сохранить"
+
+#: src/zojax/principalfolder/browser/login.pt:4
+msgid "Change Primary Login and Full name"
+msgstr "Изменить основной логин и полное имя"
+
+#: src/zojax/principalfolder/browser/login.pt:55
+msgid "Remove"
+msgstr "Удалить"
+
+#: src/zojax/principalfolder/browser/login.pt:60
+msgid "Add secondary login"
+msgstr "Добавить логин"
+
+#: src/zojax/principalfolder/browser/login.pt:66
+msgid "Login name"
+msgstr "Логин"
+
+#: src/zojax/principalfolder/browser/login.pt:68
+msgid "It will be used as secondary login name."
+msgstr "Введите дополнительный логин."
+
+#: src/zojax/principalfolder/browser/login.pt:78
+msgid "Add"
+msgstr "Добавить"
+
+#: src/zojax/principalfolder/browser/login.py:105
+#: src/zojax/principalfolder/browser/login.py:131
+msgid "Changes has been saved."
+msgstr "Изменения сохранены."
+
+#: src/zojax/principalfolder/browser/login.py:112
+msgid "Not email."
+msgstr "Это не электронный адрес."
+
+#: src/zojax/principalfolder/browser/login.py:117
+msgid "Full Name is required."
+msgstr "Полное имя обязательно для заполнения."
+
+#: src/zojax/principalfolder/browser/login.py:75
+msgid "Login name is required."
+msgstr "Логин обязателен для заполнения."
+
+#: src/zojax/principalfolder/browser/login.py:81
+#: src/zojax/principalfolder/browser/login.py:123
+msgid "Login name is already in use."
+msgstr "Такой же логин уже используется."
+
+#: src/zojax/principalfolder/browser/login.py:88
+msgid "New login has been added."
+msgstr "Новый логин добавлен."
+
+#: src/zojax/principalfolder/browser/registration.py:105
+#: src/zojax/principalfolder/plugin.py:67
+#: src/zojax/principalfolder/plugin.py:180
+msgid "Principal folder (zojax)"
+msgstr "Папка с пользователями"
+
+#: src/zojax/principalfolder/browser/registration.py:106
+msgid "Standard member registration"
+msgstr "Стандартная регистрация пользователя"
+
+#: src/zojax/principalfolder/browser/registration.py:52
+msgid "Registration form"
+msgstr "Регистрационная форма"
+
+#: src/zojax/principalfolder/browser/registration.py:61
+msgid "Register"
+msgstr "Зарегистрироватся"
+
+#: src/zojax/principalfolder/browser/registration.py:96
+msgid "You have been successfully registered in portal. "
+msgstr "Вы успешно зарегистрированны."
+
+#: src/zojax/principalfolder/browser/userinfo.pt:12
+msgid "&bull; Role"
+msgstr "&bull; Роль"
+
+#: src/zojax/principalfolder/browser/userinfo.pt:4
+msgid "&bull; Fullname"
+msgstr "&bull; Польное имя"
+
+#: src/zojax/principalfolder/browser/userinfo.pt:8
+msgid "&bull; E-Mail/Login"
+msgstr "&bull; E-mail/Логин"
+
+#: src/zojax/principalfolder/configure.zcml:13
+msgid "This permission allow manage member."
+msgstr "Разрешение для управления пользователями."
+
+#: src/zojax/principalfolder/configure.zcml:13
+msgid "Manage principal"
+msgstr ""
+
+#: src/zojax/principalfolder/configure.zcml:18
+msgid "Remove principal"
+msgstr ""
+
+#: src/zojax/principalfolder/configure.zcml:18
+msgid "This permission allow remove member."
+msgstr "Разрешение для удаления пользователя"
+
+#: src/zojax/principalfolder/configure.zcml:9
+msgid "Add principal"
+msgstr ""
+
+#: src/zojax/principalfolder/factory.py:42
+#: src/zojax/principalfolder/principal.zcml:6
+msgid "Member"
+msgstr "Пользователь"
+
+#: src/zojax/principalfolder/factory.py:43
+msgid "Create new member."
+msgstr "Создать нового пользователя."
+
+#: src/zojax/principalfolder/interfaces.py:38
+msgid "Email/Login name"
+msgstr "Email/Логин"
+
+#: src/zojax/principalfolder/interfaces.py:39
+#: src/zojax/principalfolder/browser/login.pt:26
+msgid ""
+"Enter new email. It will be used as login name and address for email "
+"notifications."
+msgstr ""
+"Введите новый электронный адрес. Он будет использован как логин и как адресс "
+"для различных уведомлений."
+
+#: src/zojax/principalfolder/interfaces.py:44
+msgid "The password for the user."
+msgstr "Пароль для пользователя."
+
+#: src/zojax/principalfolder/interfaces.py:60
+#: src/zojax/principalfolder/browser/login.pt:44
+msgid "Secondary logins"
+msgstr "Дополнительные логины"
+
+#: src/zojax/principalfolder/interfaces.py:61
+msgid "Enter new email. It will be used as login name also."
+msgstr "Введите новый электронный адрес. Он будет использован как логин."
+
+#: src/zojax/principalfolder/interfaces.py:69
+msgid "Title"
+msgstr "Заголовок"
+
+#: src/zojax/principalfolder/interfaces.py:73
+msgid "Prefix"
+msgstr "Префикс"
+
+#: src/zojax/principalfolder/interfaces.py:74
+msgid ""
+"Prefix to be added to all principal ids to assure that all ids are unique "
+"within the authentication service"
+msgstr ""
+
+#: src/zojax/principalfolder/interfaces.py:88
+msgid "Search String"
+msgstr "Строка поиска"
+
+#: src/zojax/principalfolder/interfaces.py:89
+msgid "A Search String"
+msgstr ""
+
+#: src/zojax/principalfolder/namechooser.py:102
+msgid "Ids must contain only printable 7-bit non-space ASCII characters"
+msgstr ""
+
+#: src/zojax/principalfolder/namechooser.py:107
+msgid "Ids can't be more than 100 characters long."
+msgstr ""
+
+#: src/zojax/principalfolder/plugin.py:180
+msgid "Protal members with main login as email."
+msgstr "Пользователи, электронный адрес используется как логин."
+
+#: src/zojax/principalfolder/plugin.zcml:6
+msgid "Principal folder"
+msgstr "Пользователи"

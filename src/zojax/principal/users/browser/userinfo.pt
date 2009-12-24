@@ -1,0 +1,16 @@
+<div class="infoTable" i18n:domain="zojax.principalfolder">
+  <table>
+    <tr>
+      <td i18n:translate="">&bull; Fullname</td>
+      <td tal:content="context/title"></td>
+    </tr>
+    <tr>
+      <td i18n:translate="">&bull; E-Mail/Login</td>
+      <td tal:content="context/login"></td>
+    </tr>
+    <tr tal:on-error="nothing">
+      <td i18n:translate="">&bull; Role</td>
+      <td><tal:block tal:content="view/roles"/> &nbsp;</td>
+    </tr>
+  </table>
+</div>

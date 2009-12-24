@@ -1,0 +1,42 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.principal.users">
+
+  <zojax:content
+     title="Users"
+     name="principal.users"
+     class=".plugin.UsersPlugin"
+     schema=".interfaces.IUsersPlugin"
+     contains="principal.user"
+     type="zojax.content.type.interfaces.IExplicitlyAddable"
+     permission="zope.ManageServices" />
+
+  <class class=".plugin.UsersPlugin">
+    <implements 
+       interface="zope.app.container.interfaces.IContainerNamesContainer" />
+
+    <allow attributes="prefix" />
+
+    <require
+       permission="zope.ManageServices"
+       interface="zojax.content.type.interfaces.IItem
+		  zope.app.container.interfaces.IContainer"
+       set_schema="zojax.content.type.interfaces.IItem" />
+  </class>
+
+  <utility
+     name="principal.users"
+     component=".plugin.factory" />
+
+  <subscriber handler=".plugin.pluginRemovedHandler" />
+
+  <subscriber handler=".foundsubscriber.foundPrincipalCreated" />
+
+  <subscriber
+     for="zope.app.authentication.interfaces.IAuthenticatedPrincipalCreated"
+     handler=".foundsubscriber.foundPrincipalCreated" />
+
+  <adapter factory=".foundsubscriber.getInternalPrincipal" />
+
+</configure>

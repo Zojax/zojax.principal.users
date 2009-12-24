@@ -1,0 +1,75 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zcml="http://namespaces.zope.org/zcml"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.principal.users">
+
+  <include file="openid.zcml" />
+  <include file="registration.zcml" />
+
+  <!-- login preference -->
+  <zojax:preferenceGroup
+     id="membership.pflogin"
+     for="zojax.principal.users.interfaces.IPrincipalMarker"
+     title="Manage Login and Email Address"
+     description="You can change your login name and email address here."
+     schema=".login.ILoginPreference" />
+
+  <zojax:pagelet
+     for=".login.ILoginPreference"
+     name="index.html"
+     class=".login.ChangeUserLogin"
+     provides="zojax.preferences.browser.interfaces.IEdit"
+     permission="zope.Public" />
+
+  <!-- remove principal -->
+  <zojax:preferenceGroup
+     id="membership.pfremove"
+     title="Remove user"
+     for="zojax.principal.users.interfaces.IPrincipalMarker"
+     description="Remove user from portal."
+     schema=".remove.IPrincipalRemoverPreference"
+     tests=".remove.isNotSelf"
+     permission="zojax.principal.RemoveUser" />
+
+  <zojax:pagelet
+     name="index.html"
+     for=".remove.IPrincipalRemoverPreference"
+     class=".remove.RemovePrincipalView"
+     template="remove.pt"
+     provides="zojax.preferences.browser.interfaces.IEdit"
+     permission="zojax.principal.RemoveUser" />
+
+  <!-- principal information -->
+  <browser:viewlet
+     name="zojax.principal-userinformation"
+     for="..interfaces.IPrincipalMarker"
+     manager="zojax.principal.management.interfaces.IPrincipalInformation"
+     template="userinfo.pt"
+     permission="zope.Public" />
+
+  <!-- icons -->
+  <browser:icon
+     name="zmi_icon"
+     file="user.png"
+     for="zojax.content.principal_users" />
+
+  <zojax:resourcedirectory
+     name="principal_users_openid_images"
+     directory="images" />
+
+  <zojax:resourceinclude
+     name="zojax-principal-users.css"
+     library="openid-auth"
+     type="stylesheet"
+     file="styles.css" filetype="zrt" />
+
+  <zojax:resourceinclude
+     name="zojax-principal-users.js"
+     library="openid-auth"
+     type="javascript"
+     require="jquery"
+     file="openid-jquery.js" filetype="zrt" />
+
+</configure>
