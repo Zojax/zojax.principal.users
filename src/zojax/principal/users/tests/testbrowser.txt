@@ -1,0 +1,340 @@
+====================
+Authenticator plugin
+====================
+
+Admin can change password tool configuration in controlpanel
+http://localhost/settings/authentication/
+
+  >>> from zope import component
+  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.testing.functional import getRootFolder
+  >>> from zope.app.component.hooks import setSite
+  >>> from zope.app.intid import IntIds
+  >>> from zope.app.intid.interfaces import IIntIds
+  >>> from zojax.catalog.catalog import Catalog, ICatalog
+
+  >>> root = getRootFolder()
+  >>> setSite(root)
+
+  >>> root['ids'] = IntIds()
+  >>> root.getSiteManager().registerUtility(root['ids'], IIntIds)
+  >>> root['catalog'] = Catalog()
+  >>> root.getSiteManager().registerUtility(root['catalog'], ICatalog)
+
+  >>> actor = Browser()
+  >>> actor.addHeader("Authorization", "Basic mgr:mgrpw")
+  >>> actor.handleErrors = False
+
+  >>> actor.open("http://localhost/settings/")
+  >>> actor.getLink('Authentication').click()
+
+We should install authentication utility
+
+  >>> print actor.contents
+  <html>
+  ...Pluggable authentication is not installed...
+  </html>
+
+  >>> actor.getControl(name='form.authinstall').click()
+
+We should register plugins with IAuthenticatorPluginFactory
+
+  >>> print actor.contents
+  <html>
+  ...Authentication service has been installed...
+  ...Portal authentication service configuration...
+  ...Standard users...
+  </html>
+
+  >>> actor.getControl(name='factory_ids:list').value = ['principal.users']
+  >>> actor.getControl(name='form.install').click()
+
+  >>> print actor.contents
+  <html>
+  ...Authenticator plugins have been installed...
+  ...Standard users...
+  <a href="?change_state=principal.users"
+     title="Change state">(Active)</a>
+  ...
+  </html>
+
+
+Principal management
+====================
+
+Add principal
+-------------
+login is case insensitive
+
+  >>> actor.open("http://localhost/settings/principals/")
+  >>> actor.getLink('Member').click()
+  >>> actor.getControl(name="form.buttons.cancel").click()
+  >>> actor.url
+  'http://localhost/settings/principals/'
+
+  >>> actor.getLink('Member').click()
+  >>> actor.getControl('First Name').value = u'Nikolay'
+  >>> actor.getControl('Last Name').value = u'Kim'
+  >>> actor.getControl('E-mail/Login').value = u'nkiM@zojaX.net'
+  >>> actor.getControl('Password').value = u'12345'
+  >>> actor.getControl(name="form.buttons.add").click()
+
+  >>> from zojax.principal.users.interfaces import IUsersPlugin
+  >>> plugin = component.getUtility(IUsersPlugin)
+  >>> principal = plugin['01']
+
+  >>> principal.title, principal.login, principal.logins
+  (u'Nikolay Kim', u'nkim@zojax.net', ())
+
+we can get principal id
+
+  >>> del principal.id
+  >>> principal.id
+  u'zojax.pf01'
+
+principal prefereces
+
+  >>> print actor.contents
+  <!DOCTYPE html ...
+  ...
+  ...Nikolay Kim...
+  ...
+  ...Fullname...Nikolay Kim...
+  ...E-Mail/Login...nkim@zojax.net...
+  ...
+  ...Change password...
+  ...Manage Login and Email Address...
+  ...Remove user...
+  ...
+  </html>
+
+
+Let's login as new principal
+
+  >>> user = Browser()
+  >>> user.handleErrors = False
+  >>> user.open("http://localhost/login.html")
+  >>> user.getLink('[Login]').click()
+  >>> user.getControl('Login Name').value = u'nkim@zojax.net'
+  >>> user.getControl('Password').value = u'12345'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> print user.contents
+  <html>
+  ...
+  ...You successfully logged in...
+  ...Nikolay Kim...
+  ...
+  </html>
+
+login name is case insensitive
+
+  >>> user.open('http://localhost/logout.html')
+  >>> user.open('http://localhost/login.html')
+  >>> user.getControl('Login Name').value = u'nKim@zojAx.Net'
+  >>> user.getControl('Password').value = u'12345'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> print user.contents
+  <html>
+  ...You successfully logged in...
+  ...Nikolay Kim...
+  </html>
+
+  >>> user.open("http://localhost/preferences/")
+
+Change password
+
+  >>> user.getLink('Change password').click()
+  >>> user.getControl('Current password').value = u'12345'
+  >>> user.getControl('New password').value = u'123456'
+  >>> user.getControl('Confirm password').value = u'123456'
+  >>> user.getControl(name="form.buttons.4368616e67652070617373776f7264").click()
+  >>> print user.contents
+  <!DOCTYPE html...
+  ...Password has been changed for Nikolay Kim...
+  </html>
+
+  >>> from zojax.principal.password.interfaces import IPasswordTool
+  >>> ptool = component.getUtility(IPasswordTool)
+  >>> ptool.checkPassword(principal.password, '123456')
+  True
+
+  >>> user.open('http://localhost/logout.html')
+  >>> user.open('http://localhost/login.html')
+  >>> user.getControl('Login Name').value = u'nkim@zojax.net'
+  >>> user.getControl('Password').value = u'123456'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> user.open("http://localhost/preferences/")
+  >>> print user.contents
+  <!DOCTYPE html...
+  ...User:...
+  ...Nikolay Kim...
+  </html>
+
+Change fullname and login
+
+  >>> user.getLink('Manage Login and Email Address').click()
+
+  >>> user.getControl(name="login").value = u''
+  >>> user.getControl(name="password").value = u'123456'
+  >>> user.getControl(name="save.default").click()
+  >>> print user.contents
+  <!DOCTYPE html PUBLIC...
+  ...Not email...
+  </html>
+
+  >>> user.getControl('First Name').value = u''
+  >>> user.getControl('Last Name').value = u''
+  >>> user.getControl(name="login").value = u'fafhrd@zojax.net'
+  >>> user.getControl(name="password").value = u'123456'
+  >>> user.getControl(name="save.default").click()
+  >>> print user.contents
+  <!DOCTYPE html PUBLIC...
+  ...First Name is required...
+  ...Last Name is required...
+  </html>
+
+  >>> user.getControl('First Name').value = u'Nik'
+  >>> user.getControl('Last Name').value = u'Kim'
+  >>> user.getControl(name="login").value = u'fafhrd@zojax.net'
+  >>> user.getControl(name="password").value = u'123456'
+  >>> user.getControl(name="save.default").click()
+
+  >>> user.open('http://localhost/logout.html')
+  >>> user.open('http://localhost/login.html')
+  >>> user.getControl('Login Name').value = u'fafhrd@zojax.net'
+  >>> user.getControl('Password').value = u'123456'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> user.open("http://localhost/preferences/")
+  >>> print user.contents
+  <!DOCTYPE html...
+  ...User:...
+  ...Nik Kim...
+  </html>
+
+  >>> principal.title, principal.login, principal.logins
+  (u'Nik Kim', u'fafhrd@zojax.net', ())
+
+edit profile
+
+  >>> user.open('http://localhost/preferences/')
+  >>> user.getLink('Edit Profile').click()
+  >>> user.getControl('First Name').value = u'Nikolay'
+  >>> user.getControl('Last Name').value = u'Kim2'
+  >>> user.getControl('E-Mail').value = u'nkim@zojax.net'
+  >>> user.getControl('Save').click()
+
+  >>> principal.title, principal.firstname, principal.lastname, principal.login
+  (u'Nikolay Kim2', u'Nikolay', u'Kim2', u'nkim@zojax.net')
+
+  >>> from zope.app.security.interfaces import IAuthentication
+  >>> from zojax.principal.profile.interfaces import IPersonalProfile
+
+  >>> auth = root.getSiteManager().getUtility(IAuthentication)
+
+  >>> profile = IPersonalProfile(auth.getPrincipal(principal.id))
+  >>> profile.firstname, profile.lastname, profile.title
+  (u'Nikolay', u'Kim2', u'Nikolay Kim2')
+
+  >>> user.open('http://localhost/preferences/')
+  >>> user.getLink('Edit Profile').click()
+  >>> user.getControl('First Name').value = u'Nik'
+  >>> user.getControl('Last Name').value = u'Kim'
+  >>> user.getControl('E-Mail').value = u'fafhrd@zojax.net'
+  >>> user.getControl('Save').click()
+
+secondary login
+
+  >>> user.open('http://localhost/preferences/')
+  >>> user.getLink('Manage Login and Email Address').click()
+  >>> user.getControl(name="extra_login").value = 'nkim'
+  >>> user.getControl(name="button.add").click()
+
+  >>> user.open('http://localhost/logout.html')
+  >>> user.open('http://localhost/login.html')
+  >>> user.getControl('Login Name').value = u'nkim'
+  >>> user.getControl('Password').value = u'123456'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> user.open('http://localhost/preferences/')
+  >>> print user.contents
+  <!DOCTYPE html...
+  ...User:...
+  ...Nik Kim...
+  </html>
+
+  >>> principal.title, principal.login, principal.logins
+  (u'Nik Kim', u'fafhrd@zojax.net', (u'nkim',))
+
+  >>> user.getLink('Manage Login and Email Address').click()
+  >>> user.getControl(name="extra_login").value = 'fafhrd'
+  >>> user.getControl(name="button.add").click()
+
+  >>> principal.title, principal.login, principal.logins
+  (u'Nik Kim', u'fafhrd@zojax.net', (u'nkim', u'fafhrd'))
+
+remove secondary login
+
+  >>> user.getControl(name="logins:list").value = ['nkim']
+  >>> user.getControl(name="button.remove").click()
+  >>> user.open('http://localhost/logout.html')
+
+  >>> principal.title, principal.login, principal.logins
+  (u'Nik Kim', u'fafhrd@zojax.net', (u'fafhrd',))
+
+Change password by manager
+
+  >>> actor.getLink('Change password').click()
+  >>> actor.getControl('New password').value = u'23456'
+  >>> actor.getControl('Confirm password').value = u'23456'
+  >>> actor.getControl(name="form.buttons.4368616e67652070617373776f7264").click()
+
+  >>> print actor.contents
+  <!DOCTYPE html...
+  ...Password has been changed for Nik Kim...
+  </html>
+
+Remove principal
+
+  >>> actor.getLink('Remove user').click()
+  >>> print actor.contents
+  <!DOCTYPE html...
+  ...Remove user...
+  ...Are you sure you want remove this user?...
+  </html>
+
+  >>> actor.getControl(name="form.remove").click()
+  >>> print actor.contents
+  <html>
+  ...User has been removed...
+  </html>
+
+  >>> user.open('http://localhost/login.html')
+  >>> user.getControl('Login Name').value = u'fafhrd@zojax.net'
+  >>> user.getControl('Password').value = u'123456'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> print user.contents
+  <!DOCTYPE...
+  ...Login failed...
+  </html>
+
+
+Registration
+------------
+
+  >>> actor.open("http://localhost/settings/principals/registration/")
+  >>> actor.open('http://localhost/settings/principals/registration/?configlet.widgets.actions:list=zojax-principal-users&configlet.buttons.save=Save&configlet.widgets.invitation:list=false&configlet.widgets.public:list=true')
+
+  >>> user.open('http://localhost/join.html')
+  >>> user.getControl('First Name').value = u'Nikolay'
+  >>> user.getControl('Last Name').value = u'Kim'
+  >>> user.getControl('E-mail/Login').value = u'nkim@zojax.net'
+  >>> user.getControl('New password').value = u'12345'
+  >>> user.getControl('Confirm password').value = u'12345'
+  >>> user.getControl(name="form.buttons.register").click()
+  >>> print user.contents
+  <html>
+  ...You have been successfully registered...
+  ...Nikolay Kim...
+  </html>
+
+  >>> setSite(None)
+

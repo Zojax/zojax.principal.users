@@ -1,0 +1,6 @@
+<html>
+  <body>
+    <div tal:content="structure provider:statusMessage"></div>
+    <div tal:content="structure view/render"></div>
+  </body>
+</html>

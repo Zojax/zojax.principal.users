@@ -1,0 +1,37 @@
+=========
+Principal
+=========
+
+   >>> from zope import component
+   >>> from zope.interface.verify import verifyClass, verifyObject
+
+   >>> from zojax.principal.users.interfaces import IPrincipal
+   >>> from zojax.principal.users.base import Principal
+
+   >>> p = Principal('login@localhost.org', 'Nikolay', 'Kim', '123', 
+   ...     ('login1', 'login2', 'login2'))
+
+Password management, password is encoded 
+
+   >>> from zope.app.authentication.interfaces import IPasswordManager
+
+   >>> p.password == '123'
+   True
+
+
+Principal title
+
+   >>> p.title
+   u'Nikolay Kim'
+
+
+   >>> from zojax.principal.users.principal import Principal
+
+   >>> verifyClass(IPrincipal, Principal)
+   True
+
+   >>> p = Principal('login@localhost.org', 'Nikolay', 'Kim', '123', 
+   ...     ('login1', 'login2', 'login2'))
+
+   >>> verifyObject(IPrincipal, p)
+   True

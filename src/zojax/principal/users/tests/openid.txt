@@ -1,0 +1,217 @@
+=============
+OpenId plugin
+=============
+
+Admin can change password tool configuration in controlpanel
+http://localhost/settings/authentication/
+
+  >>> from zope import component
+  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.testing.functional import getRootFolder
+  >>> from zope.app.component.hooks import setSite
+  >>> from zope.app.intid import IntIds
+  >>> from zope.app.intid.interfaces import IIntIds
+  >>> from zojax.catalog.catalog import Catalog, ICatalog
+  >>> from zojax.principal.users.interfaces import IOpenIdCredentialsPlugin
+  >>> import zojax.principal.users.tests.openid
+
+  >>> root = getRootFolder()
+  >>> setSite(root)
+  >>> sm = root.getSiteManager()
+
+  >>> root['ids'] = IntIds()
+  >>> root.getSiteManager().registerUtility(root['ids'], IIntIds)
+  >>> root['catalog'] = Catalog()
+  >>> root.getSiteManager().registerUtility(root['catalog'], ICatalog)
+
+  >>> actor = Browser()
+  >>> actor.addHeader("Authorization", "Basic mgr:mgrpw")
+  >>> actor.handleErrors = False
+
+  >>> actor.open("http://localhost/settings/")
+  >>> actor.getLink('Authentication').click()
+  >>> actor.getControl('Install').click()
+
+  >>> actor.getControl(name="cred_factory_ids:list").value = ["principal.users.credentials.openid"]
+  Traceback (most recent call last):
+  ...
+  LookupError: name 'cred_factory_ids:list'
+
+  >>> actor.getControl(name='factory_ids:list').value = ['principal.users']
+  >>> actor.getControl(name='form.install').click()
+
+Install OpenId credentials plugin
+
+  >>> actor.getControl(name="cred_factory_ids:list").value = ["principal.users.credentials.openid"]
+  >>> actor.getControl("Install credential plugin").click()
+
+  >>> 'Credentials plugins have been installed.' in actor.contents
+  True
+
+  >>> actor.open("http://localhost/settings/principals/+principal.user/")
+  >>> actor.getControl('First Name').value = 'Nikolay'
+  >>> actor.getControl('Last Name').value = 'Kim'
+  >>> actor.getControl('E-mail/Login').value = 'nkim@zojax.net'
+  >>> actor.getControl('Password').value = '12345'
+  >>> actor.getControl('Add').click()
+
+Login form
+
+  >>> user = Browser()
+  >>> user.handleErrors = False
+  >>> user.open("http://localhost/login.html")
+
+  >>> 'Sign-in with OpenID' in user.contents
+  True
+
+  >>> user.open('http://localhost/openIdSignIn')
+  >>> user.url
+  'http://localhost/'
+
+  >>> user.open("http://localhost/login.html")
+  >>> user.getControl(name="openid_submit").click()
+
+  >>> "Please specify your OpenID identifier." in user.contents
+  True
+
+  >>> user.getControl(name="openid_identifier").value='https://google.com/1/'
+  >>> user.getControl(name="openid_submit").click()
+
+Now we need login with existent login or register new principal
+
+  >>> user.getControl('Login Name').value = 'nkim10@zojax.net'
+  >>> user.getControl('Password').value = '12345'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+
+  >>> 'Login failed' in user.contents
+  True
+
+  >>> user.getControl('Login Name').value = 'nkim@zojax.net'
+  >>> user.getControl('Password').value = '12345'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+
+  >>> 'You successfully logged in.' in user.contents
+  True
+
+  >>> user.open("http://localhost/logout.html")
+
+  >>> user.open("http://localhost/login.html")
+  >>> user.getControl(name="openid_identifier").value='https://google.com/1/'
+  >>> user.getControl(name="openid_submit").click()
+
+  >>> 'You successfully logged in.' in user.contents
+  True
+
+  >>> user.open("http://localhost/logout.html")
+
+  >>> user.open("http://localhost/login.html")
+  >>> user.getControl(name="openid_identifier").value='https://google.com/2/'
+  >>> user.getControl(name="openid_submit").click()
+
+  >>> user.getControl('Login Name').value = 'nkim@zojax.net'
+  >>> user.getControl('Password').value = '12345'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+
+  >>> user.open("http://localhost/logout.html")
+
+  >>> user.open("http://localhost/login.html")
+  >>> user.getControl(name="openid_identifier").value='https://google.com/2/'
+  >>> user.getControl(name="openid_submit").click()
+
+  >>> 'You successfully logged in.' in user.contents
+  True
+
+  >>> user.open("http://localhost/logout.html")
+
+  >>> user.open("http://localhost/login.html")
+  >>> user.getControl(name="openid_identifier").value='https://google.com/4/'
+  >>> user.getControl(name="openid_submit").click()
+
+  >>> 'Login failed' in user.contents
+  True
+
+  >>> user.open("http://localhost/login.html")
+  >>> user.getControl(name="openid_identifier").value='https://google.com/5/'
+  >>> user.getControl(name="openid_submit").click()
+
+  >>> 'ValueError: Error during processing' in user.contents
+  True
+
+Register new user
+
+  >>> user.open("http://localhost/login.html")
+  >>> user.getControl(name="openid_identifier").value='https://google.com/3/'
+  >>> user.getControl(name="openid_submit").click()
+
+  >>> user.getControl('First Name').value = 'Test'
+  >>> user.getControl('Last Name').value = 'User'
+  >>> user.getControl('E-mail/Login').value = 'testuser@zojax.net'
+  >>> user.getControl('New password').value = '12345'
+  >>> user.getControl('Register').click()
+
+  >>> 'Please fix indicated errors' in user.contents
+  True
+
+  >>> user.getControl('First Name').value = 'Test'
+  >>> user.getControl('Last Name').value = 'User'
+  >>> user.getControl('E-mail/Login').value = 'testuser@zojax.net'
+  >>> user.getControl('New password').value = '12345'
+  >>> user.getControl('Confirm password').value = '12345'
+  >>> user.getControl('Register').click()
+
+  >>> print user.contents
+  <html>
+  ...You have been successfully registered...
+  ...Test User...
+  </html>
+
+  >>> user.open("http://localhost/logout.html")
+  >>> user.open("http://localhost/login.html")
+  >>> user.getControl(name="openid_identifier").value='https://google.com/3/'
+  >>> user.getControl(name="openid_submit").click()
+
+  >>> 'You successfully logged in.' in user.contents
+  True
+
+
+Redirect is principal is not anonymous
+
+  >>> actor.open('http://localhost/openIdSignIn')
+  >>> actor.url
+  'http://localhost/'
+  
+
+Uninstall OpenId credentials plugin
+
+  >>> actor.open("http://localhost/settings/")
+  >>> actor.getLink('Authentication').click()
+  >>> actor.getControl(name="cred_plugin_ids:list").value = ["principal.users.credentials.openid"]
+  >>> actor.getControl("Uninstall credential plugin").click()
+
+  >>> 'Credentials plugins have been uninstalled.' in actor.contents
+  True
+
+  >>> sm.getUtility(IOpenIdCredentialsPlugin)
+  Traceback (most recent call last):
+  ...
+  ComponentLookupError: ...
+
+  >>> actor.getControl(name="plugin_ids:list").value = ["principal.users"]
+  >>> actor.getControl(name="form.uninstall").click()
+
+  >>> 'Authenticator plugins have been uninstalled.' in actor.contents
+  True
+
+
+Cleanup
+
+  >>> actor.open("http://localhost/settings/")
+  >>> actor.getLink('Authentication').click()
+  >>> actor.getControl(name="form.buttons.uninstall").click()
+
+  >>> t = root.getSiteManager().unregisterUtility(root['ids'], IIntIds)
+  >>> del root['ids']
+  >>> t = root.getSiteManager().unregisterUtility(root['catalog'], ICatalog)
+  >>> del root['catalog']
+
+  >>> setSite(None)

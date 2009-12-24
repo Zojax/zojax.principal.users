@@ -1,0 +1,32 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.principal.users">
+
+  <zojax:content
+     title="Member"
+     name="principal.user"
+     schema=".interfaces.IPrincipal"
+     class=".principal.Principal"
+     containers="principal.users"
+     permission="zojax.principal.ManageUser" />
+
+  <class class=".principal.Principal">
+    <implements interface="zojax.principal.field.interfaces.IUser" />
+    <implements interface="zojax.content.type.interfaces.ISearchableContent" />
+
+    <require
+       permission="zope.View"
+       interface="zojax.principal.field.interfaces.IUser" />
+
+    <require
+       permission="zojax.ModifyContent"
+       interface=".interfaces.IPrincipal"
+       set_schema=".interfaces.IPrincipal" />
+  </class>
+
+  <subscriber handler=".principal.principalAddedHandler" />
+
+  <adapter factory=".principal.PrincipalSearchableText" />
+
+</configure>

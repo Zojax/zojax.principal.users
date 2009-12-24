@@ -1,0 +1,118 @@
+<div i18n:domain="zojax.principalfolder" tal:define="login view/login">
+  <form method="POST" action="@@index.html">
+    <div class="z-form">
+      <h1 i18n:translate="">Change Primary Login and Full name</h1>
+
+      <div class="z-form-fieldset">
+	<div class="z-form-field"
+	     tal:define="error view/error_firstname|nothing"
+	     tal:attributes="class python:error and 'z-form-field error' or 'z-form-field'">
+	  <label for="form.firstname" i18n:translate="">First Name</label>
+
+	  <div class="z-form-help" i18n:translate="">
+	    e.g. John. This is how users on the site will identify you.
+          </div>
+
+	  <div tal:content="error" tal:condition="error"></div>
+	  <input type="text" name="firstname" id="form.firstname"
+		 tal:attributes="value request/firstname|view/principal_first"  />
+	</div>
+
+	<div class="z-form-field"
+	     tal:define="error view/error_lastname|nothing"
+	     tal:attributes="class python:error and 'z-form-field error' or 'z-form-field'">
+	  <label for="form.lastname" i18n:translate="">Last Name</label>
+
+	  <div class="z-form-help" i18n:translate="">
+	    e.g. Smith. This is how users on the site will identify you.
+          </div>
+
+	  <div tal:content="error" tal:condition="error"></div>
+	  <input type="text" name="lastname" id="form.lastname"
+		 tal:attributes="value request/lastname|view/principal_last"  />
+	</div>
+
+	<div class="z-form-field"
+	     tal:define="error view/error_login|nothing"
+	     tal:attributes="class python:error and 'z-form-field error' or 'z-form-field'">
+	  <label id="form.login" i18n:translate="">E-mail/Login</label>
+
+	  <div class="z-form-help" i18n:translate="">
+	    Enter new email. It will be used as login name and 
+	    address for email notifications.
+          </div>
+
+	  <div tal:content="error" tal:condition="error"></div>
+	  <input type="text" name="login" id="form.login"
+		 tal:attributes="value request/login|view/login" />
+	</div>
+
+	<div class="z-form-field">
+	  <label id="form.password" i18n:translate="">Current password</label>
+
+	  <div class="z-form-help" i18n:translate="">
+	    Confirm changes with current password.
+          </div>
+
+	  <input type="text" name="password" id="form.password"
+		 tal:attributes="value request/password|nothing" />
+	</div>
+      </div>
+
+      <div class="z-form-controls">
+	<hr />
+	<input type="submit" name="save.default" value="Save" class="z-form-button"
+	       i18n:attributes="value" />
+      </div>
+    </div>
+    <br />
+
+    <tal:block tal:define="logins view/logins" tal:condition="logins">
+    <div class="z-form">
+      <h1 i18n:translate="">Secondary logins</h1>
+
+      <div class="z-form-fieldset">
+	<tal:block tal:repeat="e_login logins">
+	  <div tal:condition="python:login != e_login">
+	    <input type="checkbox" name="logins:list"
+		   tal:attributes="value e_login" />
+	    <tal:block content="e_login"/>
+	  </div>
+	</tal:block>
+      </div>
+
+      <div class="z-form-controls">
+	<hr />
+	<input type="submit" name="button.remove" value="Remove" 
+	       class="z-form-removebutton" i18n:attributes="value" />
+      </div>
+    </div>
+    <br />
+    </tal:block>
+
+    <div class="z-form">
+      <h1 i18n:translate="">Add secondary login</h1>
+
+      <div class="z-form-fieldset">
+	<div class="z-form-field"
+	     tal:define="error view/error_extra_login|nothing"
+	     tal:attributes="class python:error and 'z-form-field error' or 'z-form-field'">
+	  <label id="extra_login" i18n:translate="">Login name</label>
+
+	  <div class="z-form-help" i18n:translate="">
+	    It will be used as secondary login name.
+          </div>
+
+	  <div tal:content="error" tal:condition="error"></div>
+	  <input type="text" name="extra_login" id="extra_login"
+		 tal:attributes="value request/extra_login|nothing" />
+	</div>
+      </div>
+      <div class="z-form-controls">
+	<hr />
+	<input type="submit" name="button.add" 
+	       value="Add" class="z-form-standalonebtn" i18n:attributes="value" />
+      </div>
+    </div>
+  </form>
+</div>

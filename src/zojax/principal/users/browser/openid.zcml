@@ -1,0 +1,36 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.principal.users">
+
+  <!-- openid signin -->
+  <zojax:pagelet
+     for="zope.app.component.interfaces.ISite"
+     name="openIdSignIn"
+     permission="zope.Public"
+     class=".openidsignin.OpenIdSignIn"/>
+
+  <zojax:pagelet
+     name="completeOpenIdSignIn"
+     for="zope.app.component.interfaces.ISite"
+     template="openidsignin.pt"
+     class=".openidsignin.CompleteOpenIdSignIn"
+     layout="auth"
+     permission="zope.Public" />
+
+  <zojax:pagelet
+     name="successOpenIdSignIn"
+     for="zope.app.component.interfaces.ISite"
+     class=".openidsignin.SuccessOpenIdSignIn"
+     permission="zope.Public" />
+
+  <!-- login action -->
+  <zojax:pagelet
+     type="login.action"
+     for="..openidcreds.OpenIdCredentialsPlugin"
+     template="openidlogin.pt"
+     class=".openidlogin.LoginAction"
+     permission="zope.Public" />
+
+</configure>

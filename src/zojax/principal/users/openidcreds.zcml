@@ -1,0 +1,11 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <class class=".openidcreds.OpenIdCredentials">
+    <allow interface=".interfaces.IOpenIdCredentials" />
+  </class>
+
+  <utility
+     name="principal.users.credentials.openid"
+     component=".openidcreds.factory" />
+
+</configure>
