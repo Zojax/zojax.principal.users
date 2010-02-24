@@ -30,7 +30,7 @@ from zojax.layoutform import button, Fields, PageletForm
 from zojax.statusmessage.interfaces import IStatusMessage
 
 from zojax.authentication.utils import updateCredentials
-from zojax.authentication.interfaces import IPluggableAuthentication
+from zojax.authentication.interfaces import IPluggableAuthentication, PrincipalLoggedInEvent
 
 from zojax.principal.registration.interfaces import STATUS_CONTINUE
 from zojax.principal.registration.interfaces import IPortalRegistration
@@ -49,9 +49,9 @@ from zojax.principal.users.interfaces import _, IUsersPlugin
 from interfaces import IRegistrationForm
 
 
-class IMemberRegistrationForm(IRegistrationForm, IPrincipalPasswordForm):
-    
-    
+class IMemberRegistrationPasswordForm(IPrincipalPasswordForm):
+    """ password form """
+
     password = Password(
         title = _(u'Password'),
         description = _(u'Enter password. '\
@@ -59,6 +59,8 @@ class IMemberRegistrationForm(IRegistrationForm, IPrincipalPasswordForm):
                         u'digits and letters in mixed case.'),
         default = u'',
         required = True)
+    
+    password.order = 0
 
 
 class MemberRegistration(PageletForm):
@@ -68,7 +70,7 @@ class MemberRegistration(PageletForm):
     label = _("Registration form")
 
     ignoreContext = True
-    fields = Fields(IMemberRegistrationForm)
+    fields = Fields(IRegistrationForm, IMemberRegistrationPasswordForm)
 
     registeredPrincipal = None
 
@@ -115,6 +117,9 @@ class MemberRegistration(PageletForm):
 
             IStatusMessage(request).add(
                 _('You have been successfully registered. '))
+            
+            event.notify(PrincipalLoggedInEvent(principal))
+            
             self.redirect(absoluteURL(getSite(), request))
 
         # IMemberRegistrationForm attribute
