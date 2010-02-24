@@ -327,7 +327,7 @@ Registration
   >>> user.getControl('First Name').value = u'Nikolay'
   >>> user.getControl('Last Name').value = u'Kim'
   >>> user.getControl('E-mail/Login').value = u'nkim@zojax.net'
-  >>> user.getControl('New password').value = u'12345'
+  >>> user.getControl('Password').value = u'12345'
   >>> user.getControl('Confirm password').value = u'12345'
   >>> user.getControl(name="form.buttons.register").click()
   >>> print user.contents

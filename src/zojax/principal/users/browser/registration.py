@@ -40,12 +40,25 @@ from zojax.principal.registration.interfaces import IMemberRegistrationAction
 from zojax.principal.registration.interfaces import IMailAuthorizationAware
 
 from zojax.principal.password.interfaces import IPasswordTool
+from zojax.principal.password.field import Password
 from zojax.principal.password.browser.interfaces import IPrincipalPasswordForm
 
 from zojax.principal.users.principal import Principal
 from zojax.principal.users.interfaces import _, IUsersPlugin
 
 from interfaces import IRegistrationForm
+
+
+class IMemberRegistrationForm(IRegistrationForm, IPrincipalPasswordForm):
+    
+    
+    password = Password(
+        title = _(u'Password'),
+        description = _(u'Enter password. '\
+                        u'No spaces or special characters, should contain '\
+                        u'digits and letters in mixed case.'),
+        default = u'',
+        required = True)
 
 
 class MemberRegistration(PageletForm):
@@ -55,7 +68,7 @@ class MemberRegistration(PageletForm):
     label = _("Registration form")
 
     ignoreContext = True
-    fields = Fields(IRegistrationForm, IPrincipalPasswordForm)
+    fields = Fields(IMemberRegistrationForm)
 
     registeredPrincipal = None
 
