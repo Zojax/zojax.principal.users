@@ -179,17 +179,18 @@ class UsersPlugin(ContentContainer):
                     credentials.principalinfo.internalId in self:
                 return credentials.principalinfo
 
+            if not credentials.login:
+                return None
+
             id = self.__id_by_login.get(credentials.login)
             if id is None:
                 id = self.__id_by_login.get(credentials.login.lower())
 
             if id is None:
                 return None
-
             internal = self[id]
             password = getattr(
                 internal, 'password', getattr(internal, '_password', ''))
-
             ptool = getUtility(IPasswordTool)
             if not ptool.checkPassword(password, credentials.password):
                 return None
