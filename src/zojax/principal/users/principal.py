@@ -73,4 +73,5 @@ class PrincipalSearchableText(ContentSearchableText):
 
     def getSearchableText(self):
         return self.content.firstname + u' ' + \
-            self.content.lastname + u' ' + self.content.getLogin()
+            self.content.lastname + u' ' + self.content.getLogin() + \
+            u' ' + u' '.join(self.content.getLogins())
