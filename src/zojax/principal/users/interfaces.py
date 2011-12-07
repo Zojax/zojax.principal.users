@@ -24,7 +24,7 @@ from z3c.schema.email import RFC822MailAddress
 from zojax.content.type.interfaces import IItem
 from zojax.authentication.interfaces import ICredentialsPlugin
 
-_ = MessageFactory('zojax.principal.user')
+_ = MessageFactory('zojax.principal.users')
 
 
 class IPrincipal(interface.Interface):

@@ -2,7 +2,7 @@
    xmlns="http://namespaces.zope.org/zope"
    xmlns:zojax="http://namespaces.zope.org/zojax"
    xmlns:browser="http://namespaces.zope.org/browser"
-   i18n_domain="zojax.principal.user">
+   i18n_domain="zojax.principal.users">
 
   <!-- add new principal -->
   <browser:icon

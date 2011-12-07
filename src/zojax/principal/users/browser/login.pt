@@ -1,4 +1,4 @@
-<div i18n:domain="zojax.principalfolder" tal:define="login view/login">
+<div i18n:domain="zojax.principal.users" tal:define="login view/login">
   <form method="POST" action="@@index.html">
     <div class="z-form">
       <h1 i18n:translate="">Change Primary Login and Full name</h1>

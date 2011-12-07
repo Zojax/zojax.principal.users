@@ -1,4 +1,4 @@
-<div class="infoTable" i18n:domain="zojax.principalfolder">
+<div class="infoTable" i18n:domain="zojax.principal.users">
   <table>
     <tr>
       <td i18n:translate="">&bull; Fullname</td>

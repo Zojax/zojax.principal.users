@@ -2,10 +2,10 @@
       tal:define="dummy resourcepackage:openid-auth">
   <input type="hidden" name="openid_form_submitted" value="1" />
   <fieldset>
-    <legend>Sign-in with OpenID</legend>
+    <legend i18n:translate="">Sign-in with OpenID</legend>
 
     <div id="openid_choice">
-      <p>Please click your account provider:</p>
+      <p i18n:translate="">Please click your account provider:</p>
       <div id="openid_btns"></div>
     </div>
 			
@@ -14,12 +14,13 @@
 	     type="text" value="http://" />
       <div class="z-form-controls">
 	<input id="openid_submit" type="submit"
+	       i18n:attributes="value"
 	       name="openid_submit" value="Log in"/>
       </div>
     </div>
     <noscript>
-      <p>OpenID is service that allows you to log-on to many different websites using a single indentity.
-	Find out <a href="http://openid.net/what/">more about OpenID</a> and <a href="http://openid.net/get/">how to get an OpenID enabled account</a>.</p>
+      <p i18n:translate="">OpenID is service that allows you to log-on to many different websites using a single indentity.
+      Find out <tal:block i18n:name="link_openid_what"><a href="http://openid.net/what/" i18n:translate="">more about OpenID</a></tal:block> and <tal:block i18n:name="link_openid_get"><a href="http://openid.net/get/" i18n:translate="">how to get an OpenID enabled account</a></tal:block>.</p>
     </noscript>
   </fieldset>
 </form>
