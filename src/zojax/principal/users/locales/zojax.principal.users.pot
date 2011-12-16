@@ -1,0 +1,359 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Corporation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Development/Unknown\n"
+"POT-Creation-Date: Thu Dec  8 23:22:02 2011\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: src/zojax/principal/users/browser/add.py:33
+#: src/zojax/principal/users/browser/registration.py:56
+#: src/zojax/principal/users/interfaces.py:51
+#: src/zojax/principal/users/browser/openidsignin.pt:16
+msgid "Password"
+msgstr ""
+
+#: src/zojax/principal/users/browser/add.py:34
+msgid "Enter new password. no spaces or special characters, should contain digits and letters in mixed case."
+msgstr ""
+
+#: src/zojax/principal/users/browser/add.py:39
+#: src/zojax/principal/users/interfaces.py:55
+msgid "Description"
+msgstr ""
+
+#: src/zojax/principal/users/browser/add.py:40
+#: src/zojax/principal/users/interfaces.py:56
+msgid "Provides a description for the principal."
+msgstr ""
+
+#: src/zojax/principal/users/browser/add.py:49
+msgid "Create new member"
+msgstr ""
+
+#: src/zojax/principal/users/browser/configure.zcml:12
+msgid "You can change your login name and email address here."
+msgstr ""
+
+#: src/zojax/principal/users/browser/configure.zcml:12
+msgid "Manage Login and Email Address"
+msgstr ""
+
+#: src/zojax/principal/users/browser/configure.zcml:27
+msgid "Remove user from portal."
+msgstr ""
+
+#: src/zojax/principal/users/browser/interfaces.py:27
+#: src/zojax/principal/users/interfaces.py:34
+#: src/zojax/principal/users/browser/login.pt:10
+msgid "First Name"
+msgstr ""
+
+#: src/zojax/principal/users/browser/interfaces.py:28
+#: src/zojax/principal/users/interfaces.py:35
+#: src/zojax/principal/users/browser/login.pt:12
+msgid "e.g. John. This is how users on the site will identify you."
+msgstr ""
+
+#: src/zojax/principal/users/browser/interfaces.py:33
+#: src/zojax/principal/users/interfaces.py:40
+#: src/zojax/principal/users/browser/login.pt:24
+msgid "Last Name"
+msgstr ""
+
+#: src/zojax/principal/users/browser/interfaces.py:34
+#: src/zojax/principal/users/interfaces.py:41
+#: src/zojax/principal/users/browser/login.pt:26
+msgid "e.g. Smith. This is how users on the site will identify you."
+msgstr ""
+
+#: src/zojax/principal/users/browser/interfaces.py:39
+#: src/zojax/principal/users/browser/login.pt:38
+msgid "E-mail/Login"
+msgstr ""
+
+#: src/zojax/principal/users/browser/interfaces.py:40
+msgid "This is the username you will use to log in. It must be an email address. <br /> Your email address will not be displayed to any user or be shared with anyone else."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.pt:100
+msgid "Login name"
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.pt:102
+msgid "It will be used as secondary login name."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.pt:113
+msgid "Add"
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.pt:4
+msgid "Change Primary Login and Full name"
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.pt:51
+msgid "Current password"
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.pt:53
+msgid "Confirm changes with current password."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.pt:64
+msgid "Save"
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.pt:94
+msgid "Add secondary login"
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.py:103
+#: src/zojax/principal/users/browser/login.py:139
+msgid "Changes has been saved."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.py:110
+msgid "Not email."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.py:115
+msgid "First Name is required."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.py:119
+msgid "Last Name is required."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.py:73
+msgid "Login name is required."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.py:79
+#: src/zojax/principal/users/browser/login.py:127
+msgid "Login name is already in use."
+msgstr ""
+
+#: src/zojax/principal/users/browser/login.py:86
+msgid "New login has been added."
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidlogin.pt:23
+msgid "more about OpenID"
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidlogin.pt:23
+msgid "how to get an OpenID enabled account"
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidlogin.pt:23
+msgid "OpenID is service that allows you to log-on to many different websites using a single indentity. Find out ${link_openid_what} and ${link_openid_get}."
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidlogin.pt:5
+msgid "Sign-in with OpenID"
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidlogin.pt:8
+msgid "Please click your account provider:"
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.pt:1
+msgid "Log in with existing login"
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.pt:18
+msgid "Case sensitive, make sure caps lock is not enabled."
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.pt:28
+#: src/zojax/principal/users/browser/openidlogin.pt:16
+msgid "Log in"
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.pt:5
+msgid "Login Name"
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.pt:7
+msgid "Login names are case sensitive, make sure the caps lock key is not enabled."
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.py:116
+#: src/zojax/principal/users/browser/openidsignin.py:199
+msgid "Login failed."
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.py:125
+msgid "You successfully logged in."
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.py:128
+#: src/zojax/principal/users/browser/registration.py:82
+msgid "Register"
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.py:170
+msgid "You have been successfully registered."
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.py:72
+msgid "Please specify your OpenID identifier."
+msgstr ""
+
+#: src/zojax/principal/users/browser/openidsignin.py:96
+msgid "Register new user"
+msgstr ""
+
+#: src/zojax/principal/users/browser/registration.py:119
+msgid "You have been successfully registered. "
+msgstr ""
+
+#: src/zojax/principal/users/browser/registration.py:134
+msgid "Standard registration"
+msgstr ""
+
+#: src/zojax/principal/users/browser/registration.py:135
+msgid "Register as standard portal member."
+msgstr ""
+
+#: src/zojax/principal/users/browser/registration.py:57
+msgid "Enter password. No spaces or special characters, should contain digits and letters in mixed case."
+msgstr ""
+
+#: src/zojax/principal/users/browser/registration.py:70
+msgid "Registration form"
+msgstr ""
+
+#: src/zojax/principal/users/browser/remove.pt:11
+#: src/zojax/principal/users/browser/login.pt:86
+msgid "Remove"
+msgstr ""
+
+#: src/zojax/principal/users/browser/remove.pt:6
+msgid "Are you sure you want remove this user?"
+msgstr ""
+
+#: src/zojax/principal/users/browser/remove.py:53
+msgid "User has been removed."
+msgstr ""
+
+#: src/zojax/principal/users/browser/userinfo.pt:12
+msgid "&bull; Role"
+msgstr ""
+
+#: src/zojax/principal/users/browser/userinfo.pt:4
+msgid "&bull; Fullname"
+msgstr ""
+
+#: src/zojax/principal/users/browser/userinfo.pt:8
+msgid "&bull; E-Mail/Login"
+msgstr ""
+
+#: src/zojax/principal/users/configure.zcml:11
+msgid "Manage user"
+msgstr ""
+
+#: src/zojax/principal/users/configure.zcml:11
+msgid "This permission allow manage user."
+msgstr ""
+
+#: src/zojax/principal/users/configure.zcml:16
+msgid "This permission allow remove user."
+msgstr ""
+
+#: src/zojax/principal/users/configure.zcml:16
+#: src/zojax/principal/users/browser/configure.zcml:27
+#: src/zojax/principal/users/browser/remove.pt:2
+msgid "Remove user"
+msgstr ""
+
+#: src/zojax/principal/users/configure.zcml:7
+msgid "Add user"
+msgstr ""
+
+#: src/zojax/principal/users/factory.py:41
+#: src/zojax/principal/users/principal.zcml:6
+msgid "Member"
+msgstr ""
+
+#: src/zojax/principal/users/factory.py:42
+msgid "Create new member."
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:125
+msgid "Query parameters"
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:46
+msgid "Email/Login name"
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:47
+#: src/zojax/principal/users/browser/login.pt:40
+msgid "Enter new email. It will be used as login name and address for email notifications."
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:52
+msgid "The password for the user."
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:68
+#: src/zojax/principal/users/browser/login.pt:72
+msgid "Secondary logins"
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:69
+msgid "Enter new email. It will be used as login name also."
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:77
+msgid "Title"
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:81
+msgid "Prefix"
+msgstr ""
+
+#: src/zojax/principal/users/interfaces.py:82
+msgid "Prefix to be added to all principal ids to assure that all ids are unique within the authentication service"
+msgstr ""
+
+#: src/zojax/principal/users/openidcreds.py:88
+msgid "OpenId credentials plugin"
+msgstr ""
+
+#: src/zojax/principal/users/openidcreds.py:89
+msgid "This plugin allow use openid login like google, yahoo, lifejournal and many others with standard users authenticator plugin."
+msgstr ""
+
+#: src/zojax/principal/users/plugin.py:274
+msgid "Standard users"
+msgstr ""
+
+#: src/zojax/principal/users/plugin.py:274
+msgid "Protal users with main login as email."
+msgstr ""
+
+#: src/zojax/principal/users/plugin.py:70
+#: src/zojax/principal/users/plugin.zcml:6
+msgid "Users"
+msgstr ""
+
