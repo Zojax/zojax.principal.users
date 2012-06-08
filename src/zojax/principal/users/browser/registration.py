@@ -112,14 +112,10 @@ class MemberRegistration(PageletForm):
         interface.alsoProvides(principal, IMailAuthorizationAware)
 
         status = self.registration.registerPrincipal(principal, request)
+
         if status == STATUS_CONTINUE:
             updateCredentials(request, login, data['password'])
-
-            IStatusMessage(request).add(
-                _('You have been successfully registered. '))
-            
             event.notify(PrincipalLoggedInEvent(principal))
-            
             self.redirect(absoluteURL(getSite(), request))
 
         # IMemberRegistrationForm attribute
