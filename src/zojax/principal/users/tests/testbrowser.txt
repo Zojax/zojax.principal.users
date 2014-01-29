@@ -332,7 +332,6 @@ Registration
   >>> user.getControl(name="form.buttons.register").click()
   >>> print user.contents
   <html>
-  ...You have been successfully registered...
   ...Nikolay Kim...
   </html>
 
